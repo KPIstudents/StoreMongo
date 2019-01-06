@@ -5,15 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoreMongo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Mongo database" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
+        <DataGrid Grid.Column="0" x:Name="DataGridGoods" ></DataGrid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button x:Name="ButtonSettings" Grid.Row="0" Width="100" Height="25" Click="ButtonSettings_Click">Settings</Button>
+            <Button x:Name="ButtonLoad" Grid.Row="1" Width="100" Height="25" Click="ButtonLoad_Click">Load goods</Button>
+            <Button x:Name="ButtonAdd" Grid.Row="2" Width="100" Height="25" Click="ButtonAdd_Click">Add good</Button>
+            <Button x:Name="ButtonRemove" Grid.Row="3" Width="100" Height="25" Click="ButtonRemove_Click">Add good</Button>
+        </Grid>
     </Grid>
 </Window>
