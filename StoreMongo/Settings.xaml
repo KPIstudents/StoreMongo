@@ -29,5 +29,6 @@
                  Text="{Binding Collection}"></TextBox>
         
         <Button x:Name="ButtonSettings" Grid.Column="0" Grid.Row="3" Width="50" Height="25" Click="ButtonSettings_Click">OK</Button>
+        <Button x:Name="ButtonCancel" Grid.Column="1" Grid.Row="3" Width="50" Height="25" Click="ButtonCancel_Click">Cancel</Button>
     </Grid>
 </Window>

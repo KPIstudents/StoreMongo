@@ -24,9 +24,9 @@
         <TextBox x:Name="TextBoxNameGood" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                  Text="{Binding NameGood}"></TextBox>
         <TextBox x:Name="TextBoxValue" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                 Text="{Binding Value}"></TextBox>
+                 Text="{Binding ValueGood}"></TextBox>
         <TextBox x:Name="TextBoxType" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                 Text="{Binding Type}"></TextBox>
+                 Text="{Binding TypeGood}"></TextBox>
 
         <Button x:Name="ButtonAdd" Grid.Column="0" Grid.Row="3" Width="50" Height="25" Click="ButtonAdd_Click">OK</Button>
         <Button x:Name="ButtonCancel" Grid.Column="1" Grid.Row="3" Width="50" Height="25" Click="ButtonCancel_Click">Cancel</Button>
