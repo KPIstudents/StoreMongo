@@ -54,9 +54,10 @@ namespace StoreMongo
                 {
                     IMongoDatabase mongodb = mc.GetDatabase(DataBase);
 
-                    var goods = mongodb.GetCollection<BsonDocument>(Collection);
-                    var allgoods = goods.Find(new BsonDocument()).ToList();
-                    Goods = allgoods.Select(r => new GoodDocument() { Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()), Type = int.Parse(r["Type"].ToString()) }).ToList();
+                    var goods = mongodb.GetCollection<GoodDocument>(Collection);
+                    var filter = new BsonDocument();
+                    Goods = goods.Find(filter).ToList();
+                    //Goods = allgoods.Select(r => new GoodDocument() { Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()), Type = int.Parse(r["Type"].ToString()) }).ToList();
                 }
             }
             catch

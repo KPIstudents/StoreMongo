@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace StoreMongo
     }
     public class GoodDocument
     {
+        public ObjectId Id { get; set; }
         public string Name { get; set; }
         public double Value { get; set; }
         public int Type { get; set; }
