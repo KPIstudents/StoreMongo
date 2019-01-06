@@ -15,7 +15,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>-->
-        <DataGrid Grid.Column="0" x:Name="DataGridGoods" ></DataGrid>
+        <DataGrid Grid.Column="0" x:Name="DataGridGoods" ItemsSource="{Binding Goods}" SelectedItem="{Binding CurrentGood}" CanUserAddRows="False"></DataGrid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -28,7 +28,9 @@
             <Button x:Name="ButtonSettings" Grid.Row="0" Width="100" Height="25" Click="ButtonSettings_Click">Settings</Button>
             <Button x:Name="ButtonLoad" Grid.Row="1" Width="100" Height="25" Click="ButtonLoad_Click">Load goods</Button>
             <Button x:Name="ButtonAdd" Grid.Row="2" Width="100" Height="25" Click="ButtonAdd_Click">Add good</Button>
-            <Button x:Name="ButtonRemove" Grid.Row="3" Width="100" Height="25" Click="ButtonRemove_Click">Add good</Button>
+            <Button x:Name="ButtonRemove" Grid.Row="3" Width="100" Height="25" Click="ButtonRemove_Click">Remove good</Button>
+
+            <Button x:Name="ButtonExit" Grid.Row="5" Width="100" Height="25" Click="ButtonExit_Click">Exit</Button>
         </Grid>
     </Grid>
 </Window>

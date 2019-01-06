@@ -22,41 +22,73 @@ namespace StoreMongo
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly DependencyProperty CurrentGoodProperty = DependencyProperty.Register("CurrentGood", typeof(GoodDocument), typeof(MainWindow), new PropertyMetadata());
+        public GoodDocument CurrentGood
+        {
+            get { return (GoodDocument)GetValue(CurrentGoodProperty); }
+            set { SetValue(CurrentGoodProperty, value); }
+        }
+
+        public static readonly DependencyProperty GoodsProperty = DependencyProperty.Register("Goods", typeof(List<GoodDocument>), typeof(MainWindow), new PropertyMetadata());
+        public List<GoodDocument> Goods
+        {
+            get { return (List<GoodDocument>)GetValue(GoodsProperty); }
+            set { SetValue(GoodsProperty, value); }
+        }
+
         public string Connection { get; set; }
         public string DataBase { get; set; }
         public string Collection { get; set; }
-        public MongoClient mongodbClient { get; set; }
+        public MongoClient MongodbClient { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
-            //mongodbClient = new MongoClient("mongodb://localhost");
-            //IMongoDatabase mongodb = mongodbClient.GetDatabase(DataBase);
+        }
 
-            //var goods = mongodb.GetCollection<BsonDocument>(Collection);
-            //var allgoods = goods.Find(new BsonDocument()).ToList();
-            //DataGridGoods.ItemsSource = allgoods.Select(r => new GoodDocument() { Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()) }).ToList();
+        private void UpdateGoods()
+        {
+            try
+            {
+                if (MongodbClient is MongoClient mc)
+                {
+                    IMongoDatabase mongodb = mc.GetDatabase(DataBase);
+
+                    var goods = mongodb.GetCollection<BsonDocument>(Collection);
+                    var allgoods = goods.Find(new BsonDocument()).ToList();
+                    Goods = allgoods.Select(r => new GoodDocument() { Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()), Type = int.Parse(r["Type"].ToString()) }).ToList();
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
-        {
-            var settings = new Settings();
-            settings.ShowDialog();
-            Connection = settings.Connection;
-            DataBase = settings.DataBase;
-            Collection = settings.Collection;
-            mongodbClient = new MongoClient("mongodb://localhost");
+        {  
+            try
+            {
+                var settings = new Settings();
+                if (settings.ShowDialog() == true)
+                {
+                    Connection = settings.Connection;
+                    DataBase = settings.DataBase;
+                    Collection = settings.Collection;
+                    MongodbClient = new MongoClient(Connection);
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         private void ButtonLoad_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                IMongoDatabase mongodb = mongodbClient.GetDatabase(DataBase);
-
-                var goods = mongodb.GetCollection<BsonDocument>(Collection);
-                var allgoods = goods.Find(new BsonDocument()).ToList();
-                DataGridGoods.ItemsSource = allgoods.Select(r => new GoodDocument() { Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()), Type = int.Parse(r["Type"].ToString()) }).ToList();
+                UpdateGoods();
             }
             catch
             {
@@ -70,6 +102,7 @@ namespace StoreMongo
             {
                 var addGood = new AddGood(Connection, DataBase, Collection);
                 addGood.ShowDialog();
+                UpdateGoods();
             }
             catch
             {
@@ -77,9 +110,34 @@ namespace StoreMongo
             }
         }
 
-        private void ButtonRemove_Click(object sender, RoutedEventArgs e)
-        {
+        private async void ButtonRemove_Click(object sender, RoutedEventArgs e)
+        {            
+            try
+            {
+                if (MongodbClient is MongoClient mc)
+                {
+                    IMongoDatabase mongodb = mc.GetDatabase(DataBase);
 
+                    var goods = mongodb.GetCollection<BsonDocument>(Collection);
+                    var document = new BsonDocument
+                    {
+                      {"Name", CurrentGood.Name},
+                      {"Value", CurrentGood.Value.ToString()},
+                      {"Type", CurrentGood.Type.ToString() }
+                    };
+                    await goods.DeleteOneAsync(document);
+                    UpdateGoods();
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void ButtonExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

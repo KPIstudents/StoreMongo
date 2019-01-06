@@ -49,6 +49,13 @@ namespace StoreMongo
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
+            Close();
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
             Close();
         }
     }
