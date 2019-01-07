@@ -19,8 +19,7 @@ namespace StoreMongo
     /// </summary>
     public partial class Settings : Window
     {
-
-        public static readonly DependencyProperty ConnectionProperty = DependencyProperty.Register("Connection", typeof(string), typeof(Settings), new PropertyMetadata("mongodb://localhost"));
+        public static readonly DependencyProperty ConnectionProperty = DependencyProperty.Register("Connection", typeof(string), typeof(Settings), new PropertyMetadata("localhost"));
         public string Connection
         {
             get { return (string)GetValue(ConnectionProperty); }
@@ -40,6 +39,8 @@ namespace StoreMongo
             get { return (string)GetValue(CollectionProperty); }
             set { SetValue(CollectionProperty, value); }
         }
+
+        public string StartConnection { get; set; } = "mongodb://";
 
         public Settings()
         {

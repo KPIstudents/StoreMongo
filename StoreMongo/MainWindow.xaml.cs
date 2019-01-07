@@ -54,10 +54,11 @@ namespace StoreMongo
                 {
                     IMongoDatabase mongodb = mc.GetDatabase(DataBase);
 
-                    var goods = mongodb.GetCollection<GoodDocument>(Collection);
+                    var goods = mongodb.GetCollection<BsonDocument>(Collection);
                     var filter = new BsonDocument();
-                    Goods = goods.Find(filter).ToList();
-                    //Goods = allgoods.Select(r => new GoodDocument() { Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()), Type = int.Parse(r["Type"].ToString()) }).ToList();
+                    //Goods = goods.Find(filter).ToList();
+                    var allgoods = goods.Find(filter).ToList();
+                    Goods = allgoods.Select(r => new GoodDocument() {Id = (ObjectId)r["_id"], Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()), Type = int.Parse(r["Type"].ToString()) }).ToList();
                 }
             }
             catch
@@ -73,7 +74,7 @@ namespace StoreMongo
                 var settings = new Settings();
                 if (settings.ShowDialog() == true)
                 {
-                    Connection = settings.Connection;
+                    Connection = settings.StartConnection + settings.Connection;
                     DataBase = settings.DataBase;
                     Collection = settings.Collection;
                     MongodbClient = new MongoClient(Connection);
