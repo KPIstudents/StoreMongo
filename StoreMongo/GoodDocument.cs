@@ -27,6 +27,6 @@ namespace StoreMongo
 
     public class Prom : GoodDocument
     {
-        public int Size { get; set; } 
+        public int SizeGood { get; set; } 
     }
 }

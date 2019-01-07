@@ -50,11 +50,32 @@ namespace StoreMongo
             set { SetValue(ValueGoodProperty, value); }
         }
 
-        public static readonly DependencyProperty TypeGoodProperty = DependencyProperty.Register("TypeGood", typeof(int), typeof(AddGood), new PropertyMetadata());
-        public int TypeGood
+        //public static readonly DependencyProperty TypeGoodProperty = DependencyProperty.Register("TypeGood", typeof(int), typeof(AddGood), new PropertyMetadata());
+        //public int TypeGood
+        //{
+        //    get { return (int)GetValue(TypeGoodProperty); }
+        //    set { SetValue(TypeGoodProperty, value); }
+        //}
+
+        public static readonly DependencyProperty ExpDateProperty = DependencyProperty.Register("ExpDate", typeof(DateTime), typeof(AddGood), new PropertyMetadata(DateTime.Today));
+        public DateTime ExpDate
         {
-            get { return (int)GetValue(TypeGoodProperty); }
-            set { SetValue(TypeGoodProperty, value); }
+            get { return (DateTime)GetValue(ExpDateProperty); }
+            set { SetValue(ExpDateProperty, value); }
+        }
+
+        public static readonly DependencyProperty SizeGoodProperty = DependencyProperty.Register("SizeGood", typeof(int), typeof(AddGood), new PropertyMetadata());
+        public int SizeGood
+        {
+            get { return (int)GetValue(SizeGoodProperty); }
+            set { SetValue(SizeGoodProperty, value); }
+        }
+
+        public static readonly DependencyProperty AlcoProperty = DependencyProperty.Register("Alco", typeof(int), typeof(AddGood), new PropertyMetadata());
+        public int Alco
+        {
+            get { return (int)GetValue(AlcoProperty); }
+            set { SetValue(AlcoProperty, value); }
         }
 
         public string DataBase { get; set; }
@@ -67,40 +88,63 @@ namespace StoreMongo
             MongodbClient = new MongoClient(connection);
             DataBase = dataBase;
             Collection = collection;
-            //ComboBoxType.ItemsSource = Enum.GetValues(typeof(Good_types)).Cast<Good_types>();
         }
 
         private async void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            IMongoDatabase mongodb = MongodbClient.GetDatabase(DataBase);
-
-            var goods = mongodb.GetCollection<BsonDocument>(Collection);
-
-            var document = new BsonDocument
+            try
             {
-                {"Name", NameGood },
-                {"Value", ValueGood.ToString() },
-                {"Type", TypeGood.ToString() },
-                //{"Name", BsonValue.Create("Peter")},
-                //{"lastname", new BsonString("Mbanugo")},
-                //{ "subjects", new BsonArray(new[] {"English", "Mathematics", "Physics"}) },
-                //{ "class", "JSS 3" },
-                //{ "age", 45}
-            };
+                if (!string.IsNullOrEmpty(NameGood))
+                {
+                    IMongoDatabase mongodb = MongodbClient.GetDatabase(DataBase);
 
-            await goods.InsertOneAsync(document);
+                    var goods = mongodb.GetCollection<BsonDocument>(Collection);
 
-            Close();
+                    var document = new BsonDocument();
+                    switch (CurrentType)
+                    {
+                        case Good_types.Default:
+                            document["Name"] = NameGood;
+                            document["Value"] = ValueGood;
+                            document["Type"] = CurrentType;
+                            break;
+                        case Good_types.Prom:
+                            document["Name"] = NameGood;
+                            document["Value"] = ValueGood;
+                            document["Type"] = CurrentType;
+                            document["SizeGood"] = SizeGood;
+                            break;
+                        case Good_types.Prod:
+                            document["Name"] = NameGood;
+                            document["Value"] = ValueGood;
+                            document["Type"] = CurrentType;
+                            document["ExpDate"] = ExpDate;
+                            break;
+                        case Good_types.Alkogol:
+                            document["Name"] = NameGood;
+                            document["Value"] = ValueGood;
+                            document["Type"] = CurrentType;
+                            document["ExpDate"] = ExpDate;
+                            document["Alco"] = Alco;
+                            break;
+                    }
+
+                    await goods.InsertOneAsync(document);
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                Close();
+            }
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void AddCtrl_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Height = Row0.Height.Value + Row1.Height.Value + Row2.Height.Value + Row3.Height.Value + Row4.Height.Value;
         }
 
         private void ComboBoxType_SelectionChanged(object sender, SelectionChangedEventArgs e)

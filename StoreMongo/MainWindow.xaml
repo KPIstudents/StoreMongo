@@ -3,9 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:StoreMongo"
         mc:Ignorable="d"
         Title="Mongo database" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="goodTypeEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:AddGood+Good_types"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"></ColumnDefinition>
@@ -24,14 +33,17 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="ButtonSettings" Grid.Row="0" Width="100" Height="25" Click="ButtonSettings_Click">Settings</Button>
-            <Button x:Name="ButtonLoad" Grid.Row="1" Width="100" Height="25" Click="ButtonLoad_Click">Load goods</Button>
-            <Button x:Name="ButtonAdd" Grid.Row="2" Width="100" Height="25" Click="ButtonAdd_Click">Add good</Button>
-            <Button x:Name="ButtonUpdate" Grid.Row="3" Width="100" Height="25" >Update good</Button>
-            <Button x:Name="ButtonRemove" Grid.Row="4" Width="100" Height="25" Click="ButtonRemove_Click">Remove good</Button>
+            <ComboBox x:Name="ComboBoxType" Grid.Row="1" Width="100" Height="25" ItemsSource="{Binding Source={StaticResource goodTypeEnum}}" SelectedItem="{Binding CurrentType}" SelectionChanged="ComboBoxType_SelectionChanged"></ComboBox>
+            
+            <Button x:Name="ButtonLoad" Grid.Row="2" Width="100" Height="25" Click="ButtonLoad_Click">Load goods</Button>
+            <Button x:Name="ButtonAdd" Grid.Row="3" Width="100" Height="25" Click="ButtonAdd_Click">Add good</Button>
+            <Button x:Name="ButtonUpdate" Grid.Row="4" Width="100" Height="25" >Update good</Button>
+            <Button x:Name="ButtonRemove" Grid.Row="5" Width="100" Height="25" Click="ButtonRemove_Click">Remove good</Button>
 
-            <Button x:Name="ButtonExit" Grid.Row="5" Width="100" Height="25" Click="ButtonExit_Click">Exit</Button>
+            <Button x:Name="ButtonExit" Grid.Row="6" Width="100" Height="25" Click="ButtonExit_Click">Exit</Button>
         </Grid>
     </Grid>
 </Window>

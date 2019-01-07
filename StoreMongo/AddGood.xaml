@@ -6,8 +6,10 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:StoreMongo"
         mc:Ignorable="d" x:Name="AddCtrl"
-        Title="AddGood" Width="200" SizeToContent="Height" Loaded="AddCtrl_Loaded" WindowStartupLocation="CenterScreen">
+        Title="AddGood" Width="200" SizeToContent="Height" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <local:IntToStringValueConverter x:Key="IntToStringConverter" />
+        <local:DoubleToStringValueConverter x:Key="DoubleToStringConverter" />
         <ObjectDataProvider x:Key="goodTypeEnum" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -34,11 +36,11 @@
         <TextBox x:Name="TextBoxNameGood" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                  Text="{Binding NameGood}" ></TextBox>
         <TextBox x:Name="TextBoxValue" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                 Text="{Binding ValueGood}" ></TextBox>
+                 Text="{Binding ValueGood, Converter={StaticResource DoubleToStringConverter}}" ></TextBox>
         <!--<TextBox x:Name="TextBoxType" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                  Text="{Binding TypeGood}"></TextBox>-->
         <ComboBox x:Name="ComboBoxType" Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Source={StaticResource goodTypeEnum}}" 
-                  SelectedItem="{Binding CurrentType}" SelectionChanged="ComboBoxType_SelectionChanged" ></ComboBox>
+                  SelectedItem="{Binding CurrentType, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="ComboBoxType_SelectionChanged" ></ComboBox>
         <StackPanel x:Name="StackPanelTypeDefault" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Visible">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -49,13 +51,6 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <!--<Label Grid.Column="0" Grid.Row="0" Content="Type0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-                <TextBox x:Name="TextBox1" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 Text="{Binding ValueGood}"></TextBox>
-
-                <Label Grid.Column="0" Grid.Row="1" Content="Type1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-                <TextBox x:Name="TextBox2" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 Text="{Binding ValueGood}"></TextBox>-->
             </Grid>
         </StackPanel>
         <StackPanel x:Name="StackPanelTypeProd" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Collapsed">
@@ -68,13 +63,9 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Type0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-                <TextBox x:Name="TextBox01" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 Text="{Binding ValueGood}"></TextBox>
-
-                <Label Grid.Column="0" Grid.Row="1" Content="Type1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-                <TextBox x:Name="TextBox02" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 Text="{Binding ValueGood}"></TextBox>
+                <Label Grid.Column="0" Grid.Row="0" Content="ExpDate" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+                <DatePicker x:Name="TextBoxExpDate" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                 Text="{Binding ExpDate}"></DatePicker>
             </Grid>
         </StackPanel>
         <StackPanel x:Name="StackPanelTypeProm" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Collapsed">
@@ -89,11 +80,7 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Content="Size" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
                 <TextBox x:Name="TextBoxSize" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 ></TextBox>
-
-                <!--<Label Grid.Column="0" Grid.Row="1" Content="Type1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-                <TextBox x:Name="TextBox12" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 Text="{Binding ValueGood}"></TextBox>-->
+                 Text="{Binding SizeGood, Converter={StaticResource IntToStringConverter}}"></TextBox>
             </Grid>
         </StackPanel>
         <StackPanel x:Name="StackPanelTypeAlkogol" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Collapsed">
@@ -106,13 +93,13 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Type0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-                <TextBox x:Name="TextBox21" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 Text="{Binding ValueGood}"></TextBox>
+                <Label Grid.Column="0" Grid.Row="0" Content="ExpDate" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+                <DatePicker x:Name="TextBoxExpDateAlco" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                 Text="{Binding ExpDate}"></DatePicker>
 
-                <Label Grid.Column="0" Grid.Row="1" Content="Type1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-                <TextBox x:Name="TextBox22" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
-                 Text="{Binding ValueGood}"></TextBox>
+                <Label Grid.Column="0" Grid.Row="1" Content="Alcogol" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+                <TextBox x:Name="TextBoxAlco" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                 Text="{Binding Alco, Converter={StaticResource IntToStringConverter}}"></TextBox>
             </Grid>
         </StackPanel>
 

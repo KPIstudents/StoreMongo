@@ -106,7 +106,7 @@
     <Compile Include="AddGood.xaml.cs">
       <DependentUpon>AddGood.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AllEnums.cs" />
+    <Compile Include="AllConverters.cs" />
     <Compile Include="GoodDocument.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
