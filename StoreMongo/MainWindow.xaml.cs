@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static StoreMongo.AddGood;
+using System.Collections;
 
 namespace StoreMongo
 {
@@ -22,6 +24,13 @@ namespace StoreMongo
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly DependencyProperty CurrentTypeProperty = DependencyProperty.Register("CurrentType", typeof(Good_types), typeof(MainWindow), new PropertyMetadata(Good_types.Default));
+        public Good_types CurrentType
+        {
+            get { return (Good_types)GetValue(CurrentTypeProperty); }
+            set { SetValue(CurrentTypeProperty, value); }
+        }
+
         public static readonly DependencyProperty CurrentGoodProperty = DependencyProperty.Register("CurrentGood", typeof(GoodDocument), typeof(MainWindow), new PropertyMetadata());
         public GoodDocument CurrentGood
         {
@@ -29,10 +38,10 @@ namespace StoreMongo
             set { SetValue(CurrentGoodProperty, value); }
         }
 
-        public static readonly DependencyProperty GoodsProperty = DependencyProperty.Register("Goods", typeof(List<GoodDocument>), typeof(MainWindow), new PropertyMetadata());
-        public List<GoodDocument> Goods
+        public static readonly DependencyProperty GoodsProperty = DependencyProperty.Register("Goods", typeof(IList), typeof(MainWindow), new PropertyMetadata());
+        public IList Goods
         {
-            get { return (List<GoodDocument>)GetValue(GoodsProperty); }
+            get { return (IList)GetValue(GoodsProperty); }
             set { SetValue(GoodsProperty, value); }
         }
 
@@ -54,9 +63,25 @@ namespace StoreMongo
                 {
                     IMongoDatabase mongodb = mc.GetDatabase(DataBase);
 
-                    var goods = mongodb.GetCollection<BsonDocument>(Collection);
-                    var allgoods = goods.Find(new BsonDocument()).ToList();
-                    Goods = allgoods.Select(r => new GoodDocument() { Name = r["Name"].ToString(), Value = double.Parse(r["Value"].ToString()), Type = int.Parse(r["Type"].ToString()) }).ToList();
+                    var goodsBson = mongodb.GetCollection<BsonDocument>(Collection);
+                    var filter = new BsonDocument();
+                    var allgoods = goodsBson.Find(filter).ToList();
+
+                    switch (CurrentType)
+                    {
+                        case Good_types.Default:
+                            Goods = allgoods.Where(r => (Good_types)int.Parse(r["Type"].ToString()) == Good_types.Default).Select(r => new GoodDocument() { Id = (ObjectId)r["_id"], Name = r["Name"].ToString(), Value = (double)r["Value"], Type = (int)r["Type"] }).ToList();
+                            break;
+                        case Good_types.Prom:
+                            Goods = allgoods.Where(r => (Good_types)int.Parse(r["Type"].ToString()) == Good_types.Prom).Select(r => new Prom() { Id = (ObjectId)r["_id"], Name = r["Name"].ToString(), Value = (double)r["Value"], Type = (int)r["Type"], SizeGood = (int)r["SizeGood"] }).ToList();
+                            break;
+                        case Good_types.Prod:
+                            Goods = allgoods.Where(r => (Good_types)int.Parse(r["Type"].ToString()) == Good_types.Prod).Select(r => new Prod() { Id = (ObjectId)r["_id"], Name = r["Name"].ToString(), Value = (double)r["Value"], Type = (int)r["Type"], ExpDate = (DateTime)r["ExpDate"] }).ToList();
+                            break;
+                        case Good_types.Alkogol:
+                            Goods = allgoods.Where(r => (Good_types)int.Parse(r["Type"].ToString()) == Good_types.Alkogol).Select(r => new Alkogol() { Id = (ObjectId)r["_id"], Name = r["Name"].ToString(), Value = (double)r["Value"], Type = (int)r["Type"], ExpDate = (DateTime)r["ExpDate"], Alco = (int)r["Alco"] }).ToList();
+                            break;
+                    }
                 }
             }
             catch
@@ -72,7 +97,7 @@ namespace StoreMongo
                 var settings = new Settings();
                 if (settings.ShowDialog() == true)
                 {
-                    Connection = settings.Connection;
+                    Connection = settings.StartConnection + settings.Connection;
                     DataBase = settings.DataBase;
                     Collection = settings.Collection;
                     MongodbClient = new MongoClient(Connection);
@@ -119,13 +144,8 @@ namespace StoreMongo
                     IMongoDatabase mongodb = mc.GetDatabase(DataBase);
 
                     var goods = mongodb.GetCollection<BsonDocument>(Collection);
-                    var document = new BsonDocument
-                    {
-                      {"Name", CurrentGood.Name},
-                      {"Value", CurrentGood.Value.ToString()},
-                      {"Type", CurrentGood.Type.ToString() }
-                    };
-                    await goods.DeleteOneAsync(document);
+                    var filter = Builders<BsonDocument>.Filter.Eq("_id", CurrentGood.Id);
+                    await goods.DeleteOneAsync(filter);
                     UpdateGoods();
                 }
             }
@@ -138,6 +158,28 @@ namespace StoreMongo
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void ComboBoxType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                switch (CurrentType)
+                {
+                    case Good_types.Default:
+                        break;
+                    case Good_types.Prom:
+                        break;
+                    case Good_types.Prod:
+                        break;
+                    case Good_types.Alkogol:
+                        break;
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

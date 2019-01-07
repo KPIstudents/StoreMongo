@@ -3,32 +3,113 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:StoreMongo"
-        mc:Ignorable="d"
-        Title="AddGood" Height="200" Width="400">
+        mc:Ignorable="d" x:Name="AddCtrl"
+        Title="AddGood" Width="200" SizeToContent="Height" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:IntToStringValueConverter x:Key="IntToStringConverter" />
+        <local:DoubleToStringValueConverter x:Key="DoubleToStringConverter" />
+        <ObjectDataProvider x:Key="goodTypeEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:AddGood+Good_types"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" Content="Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-        <Label Grid.Column="0" Grid.Row="1" Content="Value" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-        <Label Grid.Column="0" Grid.Row="2" Content="Type" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+        <Label Grid.Column="0" Grid.Row="0" Content="Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+        <Label Grid.Column="0" Grid.Row="1" Content="Value" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+        <Label Grid.Column="0" Grid.Row="2" Content="Type" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
 
         <TextBox x:Name="TextBoxNameGood" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                 Text="{Binding NameGood}"></TextBox>
+                 Text="{Binding NameGood}" ></TextBox>
         <TextBox x:Name="TextBoxValue" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                 Text="{Binding ValueGood}"></TextBox>
-        <TextBox x:Name="TextBoxType" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                 Text="{Binding TypeGood}"></TextBox>
+                 Text="{Binding ValueGood, Converter={StaticResource DoubleToStringConverter}}" ></TextBox>
+        <!--<TextBox x:Name="TextBoxType" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                 Text="{Binding TypeGood}"></TextBox>-->
+        <ComboBox x:Name="ComboBoxType" Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Source={StaticResource goodTypeEnum}}" 
+                  SelectedItem="{Binding CurrentType, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="ComboBoxType_SelectionChanged" ></ComboBox>
+        <StackPanel x:Name="StackPanelTypeDefault" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Visible">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+        </StackPanel>
+        <StackPanel x:Name="StackPanelTypeProd" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="ExpDate" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+                <DatePicker x:Name="TextBoxExpDate" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                 Text="{Binding ExpDate}"></DatePicker>
+            </Grid>
+        </StackPanel>
+        <StackPanel x:Name="StackPanelTypeProm" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="Size" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+                <TextBox x:Name="TextBoxSize" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                 Text="{Binding SizeGood, Converter={StaticResource IntToStringConverter}}"></TextBox>
+            </Grid>
+        </StackPanel>
+        <StackPanel x:Name="StackPanelTypeAlkogol" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Orientation="Vertical" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="ExpDate" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+                <DatePicker x:Name="TextBoxExpDateAlco" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                 Text="{Binding ExpDate}"></DatePicker>
 
-        <Button x:Name="ButtonAdd" Grid.Column="0" Grid.Row="3" Width="50" Height="25" Click="ButtonAdd_Click">OK</Button>
-        <Button x:Name="ButtonCancel" Grid.Column="1" Grid.Row="3" Width="50" Height="25" Click="ButtonCancel_Click">Cancel</Button>
+                <Label Grid.Column="0" Grid.Row="1" Content="Alcogol" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
+                <TextBox x:Name="TextBoxAlco" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                 Text="{Binding Alco, Converter={StaticResource IntToStringConverter}}"></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ButtonAdd" Grid.Column="0" Width="50" Height="20" Click="ButtonAdd_Click">OK</Button>
+            <Button x:Name="ButtonCancel" Grid.Column="1" Width="50" Height="20"  Click="ButtonCancel_Click">Cancel</Button>
+        </Grid>        
     </Grid>
 </Window>
