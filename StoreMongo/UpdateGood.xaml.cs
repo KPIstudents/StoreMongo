@@ -50,7 +50,7 @@ namespace StoreMongo
         }
 
 
-        //private async void ButtonUpdate_Click(object sender, RoutedEventArgs e)
+        //private async void ButtonUpdateForm_Click(object sender, RoutedEventArgs e)
         //{try
         //    {
         //        if (!string.IsNullOrEmpty(NameGood))

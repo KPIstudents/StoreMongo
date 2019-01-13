@@ -31,9 +31,9 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <!--<Label Grid.Column="0" Grid.Row="0" Content="Name" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>-->
+        
         <Label Grid.Column="0" Grid.Row="1" Content="TypeProduct" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
-        <!--<Label Grid.Column="0" Grid.Row="2" Content="Type" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>-->
+       
        
         <TextBox x:Name="TextBoxNameGood" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                  Text="{Binding NameGood}" ></TextBox>
@@ -114,7 +114,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonUpdate" Grid.Column="0" Width="50" Height="20" Click="ButtonUpdate_Click">Update</Button>
+            <!--<Button x:Name="ButtonUpdateForm" Grid.Column="0" Width="50" Height="20" Click="ButtonUpdateForm_Click">Update</Button>-->
             <Button x:Name="ButtonCancel" Grid.Column="1" Width="50" Height="20"  Click="ButtonCancel_Click">Cancel</Button>
         </Grid>
 

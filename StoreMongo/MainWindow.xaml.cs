@@ -140,6 +140,7 @@ namespace StoreMongo
 
         private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
         {
+           
             try
             {
                 var updateGood = new UpdateGood(Connection, DataBase, Collection);
@@ -202,14 +203,5 @@ namespace StoreMongo
             }
         }
 
-        private void ButtonUpdate(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonUpdate_(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
