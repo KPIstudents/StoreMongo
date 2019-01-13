@@ -135,6 +135,26 @@ namespace StoreMongo
             }
         }
 
+        //add ButtonUpdate
+
+
+        private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var updateGood = new UpdateGood(Connection, DataBase, Collection);
+                updateGood.ShowDialog();
+                UpdateGoods();
+            }
+            catch
+            {
+
+            }
+
+        }
+
+
+
         private async void ButtonRemove_Click(object sender, RoutedEventArgs e)
         {            
             try
@@ -180,6 +200,16 @@ namespace StoreMongo
             {
 
             }
+        }
+
+        private void ButtonUpdate(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonUpdate_(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
