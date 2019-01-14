@@ -181,5 +181,19 @@ namespace StoreMongo
 
             }
         }
+
+        private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var updateGood = new UpdateGood(Connection, DataBase, Collection, CurrentGood.Id);
+                updateGood.ShowDialog();
+                UpdateGoods();
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

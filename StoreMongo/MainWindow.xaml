@@ -40,7 +40,7 @@
             
             <Button x:Name="ButtonLoad" Grid.Row="2" Width="100" Height="25" Click="ButtonLoad_Click">Load goods</Button>
             <Button x:Name="ButtonAdd" Grid.Row="3" Width="100" Height="25" Click="ButtonAdd_Click">Add good</Button>
-            <Button x:Name="ButtonUpdate" Grid.Row="4" Width="100" Height="25" >Update good</Button>
+            <Button x:Name="ButtonUpdate" Grid.Row="4" Width="100" Height="25" Click="ButtonUpdate_Click" >Update good</Button>
             <Button x:Name="ButtonRemove" Grid.Row="5" Width="100" Height="25" Click="ButtonRemove_Click">Remove good</Button>
 
             <Button x:Name="ButtonExit" Grid.Row="6" Width="100" Height="25" Click="ButtonExit_Click">Exit</Button>
