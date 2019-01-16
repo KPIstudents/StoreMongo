@@ -112,13 +112,13 @@ namespace StoreMongo
                             document["Name"] = NameGood;
                             document["Value"] = ValueGood;
                             document["Type"] = CurrentType;
-                            document["ExpDate"] = ExpDate;
+                            document["ExpDate"] = new BsonDateTime(ExpDate);
                             break;
                         case Good_types.Alkogol:
                             document["Name"] = NameGood;
                             document["Value"] = ValueGood;
                             document["Type"] = CurrentType;
-                            document["ExpDate"] = ExpDate;
+                            document["ExpDate"] = new BsonDateTime(ExpDate);
                             document["Alco"] = Alco;
                             break;
                     }
