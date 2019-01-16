@@ -114,7 +114,7 @@ namespace StoreMongo
                             document["Name"] = NameGood;
                             document["Value"] = ValueGood;
                             document["Type"] = CurrentType;
-                            document["ExpDate"] = ExpDate;
+                            document["ExpDate"] = ExpDate.Date;
                             document["Alco"] = Alco;
                             break;
                     }
